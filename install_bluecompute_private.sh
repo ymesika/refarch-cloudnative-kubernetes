@@ -349,30 +349,31 @@ function create_kube_namespace {
 	fi
 }
 
+
 # Setup Stuff
-if [[ "$CLUSTER_NAME" == "minikube" ]]; then
-	echo "${grn}Checking minikube status...${end}"
-
-	minikube_vm_status=$(minikube status | grep minikubeVM | grep Running)
-	localkube_status=$(minikube status | grep localkube | grep Running)
-
-	if [[ "$minikube_vm_status" == "" || "$localkube_status" == "" ]]; then
-		echo "Starting minikube..."
-		minikube start
-	else
-		echo "minikube already started..."
-		kubectl config use-context minikube
-		status=$?
-
-		if [ $status -ne 0 ]; then
-			echo "Starting minikube..."
-			minikube start
-		fi
-	fi
-else
-	bluemix_login
-	set_cluster_context
-fi
+#if [[ "$CLUSTER_NAME" == "minikube" ]]; then
+#	echo "${grn}Checking minikube status...${end}"
+#
+#	minikube_vm_status=$(minikube status | grep minikubeVM | grep Running)
+#	localkube_status=$(minikube status | grep localkube | grep Running)
+#
+#	if [[ "$minikube_vm_status" == "" || "$localkube_status" == "" ]]; then
+#		echo "Starting minikube..."
+#		minikube start
+#	else
+#		echo "minikube already started..."
+#		kubectl config use-context minikube
+#		status=$?
+#
+#		if [ $status -ne 0 ]; then
+#			echo "Starting minikube..."
+#			minikube start
+#		fi
+#	fi
+#else
+#	bluemix_login
+#	set_cluster_context
+#fi
 
 initialize_helm
 create_kube_namespace
