@@ -59,7 +59,7 @@ function bluemix_login {
 	printf "${grn}Login into Bluemix${end}\n"
 
 	export BLUEMIX_API_KEY=${BX_API_KEY}
-	bx login -a ${BX_API_ENDPOINT} -s ${BX_SPACE}
+	bx login -a ${BX_API_ENDPOINT} -s "${BX_SPACE}"
 
 	status=$?
 
@@ -129,7 +129,7 @@ function install_grafana {
 		printf "\n\n${grn}Installing grafana chart. This will take a few minutes...${end} ${coffee3}\n\n"
 		new_release="${NAMESPACE}-grafana"
 
-		time helm install --namespace ${NAMESPACE} grafana-bc-0.3.1.tgz --name ${new_release} --set image.pullPolicy=Always --set server.setDatasource.datasource.url=http://%NAMESPACE%-prometheus-prometheus-server.%NAMESPACE%.svc.cluster.local --set server.persistentVolume.enabled=false --set server.serviceType=NodePort --timeout 600
+		time helm install --namespace ${NAMESPACE} grafana-bc-0.3.1.tgz --name ${new_release} --set image.pullPolicy=Always --set server.setDatasource.datasource.url=http://${NAMESPACE}-prometheus-prometheus-server.${NAMESPACE}.svc.cluster.local --set server.persistentVolume.enabled=false --set server.serviceType=NodePort --timeout 600
 
 		local status=$?
 
@@ -210,7 +210,7 @@ while [[ "${webport}" == "" ]]; do
 done
 
 # Getting the password
-password = $(kubectl get secret --namespace ${NAMESPACE} ${NAMESPACE}-grafana-grafana -o jsonpath="{.data.grafana-admin-password}" | base64 --decode )
+password=$(kubectl get secret --namespace ${NAMESPACE} ${NAMESPACE}-grafana-grafana -o jsonpath="{.data.grafana-admin-password}" | base64 --decode )
 
 printf "\n\n${grn}Bluecompute monitoring was successfully installed!${end}\n"
 
@@ -233,7 +233,7 @@ else
     printf "\n\thttp://${nodeip}:${webport}"
     printf "\n\tThe initial user is admin and the password is ${password}"
     printf "\n\nTo load more dashboards, execute the following script:"
-	printf "\n\./import_bc_grafana_dashboards.sh http://${nodeip}:${webport} ${password}"
+	printf "\n\t./import_bc_grafana_dashboards.sh http://${nodeip}:${webport} ${password}"
 	printf "\n"
 
 fi
