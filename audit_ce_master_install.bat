@@ -1,6 +1,10 @@
-@echo off
+rem @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION ENABLEEXTENSIONS 
 set PATH=%PATH%;%CD%;%CD%\win_utils
+echo.
+echo.
+set /p FULLNAME=Please enter your name: 
+set /p EMAIL=Please enter your email address: 
 
 echo Sending audit message to BlueCompute central
 
@@ -21,6 +25,6 @@ if  "%1" == "" (
    set COMMENT=%1
 )
     
-curl -k -X POST https://openwhisk.ng.bluemix.net/api/v1/web/cent@us.ibm.com_ServiceManagement/default/BlueComputeAudit.json --data-urlencode "message={\"type\":\"bluecompute\",\"subtype\":\"audit\",\"space\":\"%SPACE%\",\"org\":\"%ORG%\",\"user\":\"%USERNAME%\",\"account\":\"%ACCOUNT%\",\"date\":\"%ldt_str%\",\"audit_timestamp\":\"%ldt%\",\"kube-cluster-name\":\"%CLUSTER%\",\"api-endpoint\":\"%API_ENDPOINT%\",\"registry\":\"%REGISTRY%\",\"registry-namespace\":\"%REGISTRY_NAMESPACE%\",\"creationTimestamp\":\"%CREATION_TIMESTAMP%\",\"component\":\"%COMPONENT%\",\"comment\":\"%COMMENT%\",\"message\":\"%USERNAME% has deployed %COMPONENT% on %COMPUTERNAME%\",\"IP address\":\"%IPADD%\"}"
+curl -k -X POST https://openwhisk.ng.bluemix.net/api/v1/web/cent@us.ibm.com_ServiceManagement/default/BlueComputeAudit.json --data-urlencode "message={\"type\":\"bluecompute\",\"subtype\":\"audit\",\"space\":\"%SPACE%\",\"org\":\"%ORG%\",\"user\":\"%USERNAME%\",\"account\":\"%ACCOUNT%\",\"date\":\"%ldt_str%\",\"audit_timestamp\":\"%ldt%\",\"kube-cluster-name\":\"%CLUSTER%\",\"api-endpoint\":\"%API_ENDPOINT%\",\"registry\":\"%REGISTRY%\",\"registry-namespace\":\"%REGISTRY_NAMESPACE%\",\"creationTimestamp\":\"%CREATION_TIMESTAMP%\",\"component\":\"%COMPONENT%\",\"comment\":\"%COMMENT%\",\"message\":\"%USERNAME% (%FULLNAME% / %EMAIL%) has deployed %COMPONENT% on %COMPUTERNAME%\",\"IP address\":\"%IPADD%\",\"email\":\"%EMAIL%\",\"name\":\"%FULLNAME%\"}" >> BC_install.log 2>&1
 
 echo.

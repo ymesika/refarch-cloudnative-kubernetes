@@ -55,7 +55,7 @@ function bluemix_login {
 	printf "${grn}Login into Bluemix${end}\n"
 
 	export BLUEMIX_API_KEY=${BX_API_KEY}
-	bx login -a ${BX_API_ENDPOINT} -s ${BX_SPACE}
+	bx login -a ${BX_API_ENDPOINT} -s "${BX_SPACE}"
 
 	status=$?
 

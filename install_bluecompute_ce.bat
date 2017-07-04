@@ -308,8 +308,8 @@ goto :grwebport_loop_start
 
 :grafana_password
 kubectl get secret --namespace %NAMESPACE% %NAMESPACE%-grafana-grafana -o jsonpath="{.data.grafana-admin-password}" > %TMP%\GR_Passwrd.tmp
-certutil -f -decode %TMP%\GR_Passwrd.tmp %TMP%\GR_Passwrd.out
-for /f %%i in (%TMP%\GR_Passwrd.out) do @set GRPASS=%%i
+certutil -f -decode %TMP%\GR_Passwrd.tmp %TMP%\GR_Passwrd.out >> BC_install.log 2>&1 
+for /f %%i in (%TMP%\GR_Passwrd.out) do @set GRPASS=%%i 
 del %TMP%\GR_Passwrd.tmp
 del %TMP%\GR_Passwrd.out
 

@@ -54,7 +54,7 @@ function bluemix_login {
 	printf "${grn}Login into Bluemix${end}\n"
 
 	export BLUEMIX_API_KEY=${BX_API_KEY}
-	bx login -a ${BX_API_ENDPOINT} -s ${BX_SPACE}
+	bx login -a ${BX_API_ENDPOINT} -s "${BX_SPACE}"
 
 	status=$?
 
@@ -337,6 +337,8 @@ done
 
 #sleep 10
 
+./audit_ce_master_install.sh &> /dev/null
+
 printf "\n\n${grn}Bluecompute was successfully installed!${end}\n"
 
 if [[ "$CLUSTER_NAME" == "minikube" ]]; then
@@ -369,7 +371,7 @@ else
 fi
 
 #curl -i -X POST http://${nodeip}:${webport}/oauth/token -d grant_type=password -d username=user -d password=passw0rd -d scope=blue
-./audit_ce_master_install.sh &> /dev/null
+
 
 printf "\nUse these credentials to login:"
 printf "\n${cyn}username:${end} user"
