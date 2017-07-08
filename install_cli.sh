@@ -81,7 +81,7 @@ if [[ $? -ne 0 ]]; then
 
 	elif [[ $OSTYPE =~ .*linux.* ]]; then
 		# Linux
-		curl -o jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
+		curl -Lo jq https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
 	fi
 
 	chmod +x ./jq
