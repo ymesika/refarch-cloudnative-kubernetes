@@ -10,21 +10,8 @@ end=$'\e[0m'
 coffee=$'\xE2\x98\x95'
 coffee3="${coffee} ${coffee} ${coffee}"
 
-CLUSTER_NAME=$1
-BX_SPACE=$2
-BX_API_KEY=$3
-BX_REGION=$4
-NAMESPACE=$5
-BX_API_ENDPOINT=""
+NAMESPACE=$1
 
-if [[ -z "${BX_REGION// }" ]]; then
-	BX_API_ENDPOINT="api.ng.bluemix.net"
-	echo "Using DEFAULT endpoint ${grn}${BX_API_ENDPOINT}${end}."
-
-else
-	BX_API_ENDPOINT="api.${BX_REGION}.bluemix.net"
-	echo "Using endpoint ${grn}${BX_API_ENDPOINT}${end}."
-fi
 
 if [[ -z "${NAMESPACE// }" ]]; then
 	NAMESPACE="default"
@@ -112,7 +99,7 @@ function initialize_helm {
 }
 
 function delete_inventory {
-	local release=$(helm list | grep "${NAMESPACE}-inventory" | grep inventory-ce | awk '{print $1}' | head -1)
+	local release=$(helm list --all | grep "${NAMESPACE}-inventory" | grep inventory-ce | awk '{print $1}' | head -1)
 
 	# Creating for API KEY
 	if [[ -z "${release// }" ]]; then
@@ -135,7 +122,7 @@ function delete_inventory {
 }
 
 function delete_inventory_mysql {
-	local release=$(helm list | grep "${NAMESPACE}-inventory-mysql" | grep inventory-mysql | awk '{print $1}' | head -1)
+	local release=$(helm list --all | grep "${NAMESPACE}-inventory-mysql" | grep inventory-mysql | awk '{print $1}' | head -1)
 
 	# Creating for API KEY
 	if [[ -z "${release// }" ]]; then
@@ -158,7 +145,7 @@ function delete_inventory_mysql {
 }
 
 function delete_catalog {
-	local release=$(helm list | grep "${NAMESPACE}-catalog" | grep catalog-ce | awk '{print $1}' | head -1)
+	local release=$(helm list --all | grep "${NAMESPACE}-catalog" | grep catalog-ce | awk '{print $1}' | head -1)
 
 	# Creating for API KEY
 	if [[ -z "${release// }" ]]; then
@@ -181,7 +168,7 @@ function delete_catalog {
 }
 
 function delete_catalog_elasticsearch {
-	local release=$(helm list | grep "${NAMESPACE}-elasticsearch" | grep catalog-elasticsearch | awk '{print $1}' | head -1)
+	local release=$(helm list --all | grep "${NAMESPACE}-elasticsearch" | grep catalog-elasticsearch | awk '{print $1}' | head -1)
 
 	# Creating for API KEY
 	if [[ -z "${release// }" ]]; then
@@ -204,7 +191,7 @@ function delete_catalog_elasticsearch {
 }
 
 function delete_orders_mysql {
-	local release=$(helm list | grep "${NAMESPACE}-orders-mysql" | grep orders-mysql | awk '{print $1}' | head -1)
+	local release=$(helm list --all | grep "${NAMESPACE}-orders-mysql" | grep orders-mysql | awk '{print $1}' | head -1)
 
 	# Creating for API KEY
 	if [[ -z "${release// }" ]]; then
@@ -227,7 +214,7 @@ function delete_orders_mysql {
 }
 
 function delete_orders {
-	local release=$(helm list | grep "${NAMESPACE}-orders" | awk '{print $1}' | head -1)
+	local release=$(helm list --all | grep "${NAMESPACE}-orders" | awk '{print $1}' | head -1)
 
 	# Creating for API KEY
 	if [[ -z "${release// }" ]]; then
@@ -250,7 +237,7 @@ function delete_orders {
 }
 
 function delete_customer {
-	local release=$(helm list | grep "${NAMESPACE}-customer" | grep customer | awk '{print $1}' | head -1)
+	local release=$(helm list --all | grep "${NAMESPACE}-customer" | grep customer | awk '{print $1}' | head -1)
 
 	# Creating for API KEY
 	if [[ -z "${release// }" ]]; then
@@ -273,7 +260,7 @@ function delete_customer {
 }
 
 function delete_auth {
-	local release=$(helm list | grep "${NAMESPACE}-auth" | awk '{print $1}' | head -1)
+	local release=$(helm list --all | grep "${NAMESPACE}-auth" | awk '{print $1}' | head -1)
 
 	# Creating for API KEY
 	if [[ -z "${release// }" ]]; then
@@ -296,7 +283,7 @@ function delete_auth {
 }
 
 function delete_web {
-	local release=$(helm list | grep "${NAMESPACE}-web" | awk '{print $1}' | head -1)
+	local release=$(helm list --all | grep "${NAMESPACE}-web" | awk '{print $1}' | head -1)
 
 	# Creating for API KEY
 	if [[ -z "${release// }" ]]; then

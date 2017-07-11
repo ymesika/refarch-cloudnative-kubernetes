@@ -10,22 +10,9 @@ end=$'\e[0m'
 coffee=$'\xE2\x98\x95'
 coffee3="${coffee} ${coffee} ${coffee}"
 
-CLUSTER_NAME=$1
-BX_SPACE=$2
-BX_API_KEY=$3
-BX_REGION=$4
-NAMESPACE=$5
-BX_API_ENDPOINT=""
+NAMESPACE=$1
 HS_256_KEY=$(cat /dev/urandom | env LC_CTYPE=C tr -dc 'a-zA-Z0-9' | fold -w 256 | head -n 1)
 
-if [[ -z "${BX_REGION// }" ]]; then
-	BX_API_ENDPOINT="api.ng.bluemix.net"
-	echo "Using DEFAULT endpoint ${grn}${BX_API_ENDPOINT}${end}."
-
-else
-	BX_API_ENDPOINT="api.${BX_REGION}.bluemix.net"
-	echo "Using endpoint ${grn}${BX_API_ENDPOINT}${end}."
-fi
 
 if [[ -z "${NAMESPACE// }" ]]; then
 	NAMESPACE="default"
@@ -155,7 +142,7 @@ function install_inventory {
 		printf "\n\n${grn}Installing inventory-ce chart. This will take a few minutes...${end} ${coffee3}\n\n"
 		new_release="${NAMESPACE}-inventory"
 
-		time helm install --namespace ${NAMESPACE} --set mysql.secret=binding-${NAMESPACE}-inventory-mysql inventory-ce-0.1.1.tgz --name ${new_release} --set image.pullPolicy=Always --timeout 600
+		time helm install --namespace ${NAMESPACE} --set mysql.secret=binding-${NAMESPACE}-inventory-mysql inventory-ce-0.1.1.tgz --name ${new_release} --set image.pullPolicy=IfNotPresent --timeout 600
 
 		local status=$?
 
@@ -350,30 +337,6 @@ function create_kube_namespace {
 }
 
 
-# Setup Stuff
-#if [[ "$CLUSTER_NAME" == "minikube" ]]; then
-#	echo "${grn}Checking minikube status...${end}"
-#
-#	minikube_vm_status=$(minikube status | grep minikubeVM | grep Running)
-#	localkube_status=$(minikube status | grep localkube | grep Running)
-#
-#	if [[ "$minikube_vm_status" == "" || "$localkube_status" == "" ]]; then
-#		echo "Starting minikube..."
-#		minikube start
-#	else
-#		echo "minikube already started..."
-#		kubectl config use-context minikube
-#		status=$?
-#
-#		if [ $status -ne 0 ]; then
-#			echo "Starting minikube..."
-#			minikube start
-#		fi
-#	fi
-#else
-#	bluemix_login
-#	set_cluster_context
-#fi
 
 initialize_helm
 create_kube_namespace
