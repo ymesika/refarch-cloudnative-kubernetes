@@ -142,7 +142,7 @@ function install_inventory {
 		printf "\n\n${grn}Installing inventory-ce chart. This will take a few minutes...${end} ${coffee3}\n\n"
 		new_release="${NAMESPACE}-inventory"
 
-		time helm install --namespace ${NAMESPACE} --set mysql.secret=binding-${NAMESPACE}-inventory-mysql inventory-ce-0.1.1.tgz --name ${new_release} --set image.pullPolicy=IfNotPresent --timeout 600
+		time helm install --namespace ${NAMESPACE} --set mysql.secret=binding-${NAMESPACE}-inventory-mysql inventory-ce-0.1.1.tgz --name ${new_release} --set image.pullPolicy=Always --timeout 600
 
 		local status=$?
 
